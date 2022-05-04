@@ -30,7 +30,7 @@ fun CompPlacement(
 )
 {
     val shape = RoundedCornerShape(12.dp)
-    val fontSize = 12.sp
+    val fontSize = 8.sp
     val context = LocalContext.current
     val displayMetrics = context.getResources().getDisplayMetrics()
     val dmWidthInPx = displayMetrics.widthPixels
@@ -126,6 +126,22 @@ fun CompPlacement(
                                 )
                                 Text(
                                     text = "init-Y: ${initCoordinated.y.toString()}",
+                                    color = Color.White,
+                                    fontSize = fontSize,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Column()
+                            {
+                                Text(
+                                    text = "placementWidthInPx: $placementWidthInPx",
+                                    color = Color.White,
+                                    fontSize = fontSize,
+                                    textAlign = TextAlign.Center
+                                )
+                                Spacer(modifier = Modifier.size(width = 10.dp, height = 0.dp))
+                                Text(
+                                    text = "placementHeightInPx: $placementHeightInPx",
                                     color = Color.White,
                                     fontSize = fontSize,
                                     textAlign = TextAlign.Center

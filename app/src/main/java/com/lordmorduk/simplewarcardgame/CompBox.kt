@@ -34,36 +34,35 @@ fun CompBox(title: String,
             boxDimensions: DataSize = DataSize(),
             placementDimensions: DataSize = DataSize(),
             lockCoordinated: DataCoordinates = DataCoordinates(),
-            test: Boolean = false,
+            testData1: Boolean = false,
+            testData2: Boolean = false,
             z: Float = 0f,
             content: @Composable() () -> Unit)
 {
     val context = LocalContext.current
     val displayMetrics = context.getResources().getDisplayMetrics()
-    /// These two are only for the sake of Testing
-    val dmWidthInPx = displayMetrics.widthPixels
-    val dmHeightInPx = displayMetrics.heightPixels
     val cardInitWidth = boxDimensions.width
     val cardInitHeight = boxDimensions.height
     val cardInitWidthInPx = with(LocalDensity.current) { (cardInitWidth).dp.toPx() }
     val cardInitHeightInPx = with(LocalDensity.current) { (cardInitHeight).dp.toPx() }
     val marginSpace = 150
-    var lockCoordinatedMarginXLow = lockCoordinated.x - marginSpace
-    var lockCoordinatedMarginXHigh = lockCoordinated.x + marginSpace
-    var lockCoordinatedMarginYLow = lockCoordinated.y - marginSpace
-    var lockCoordinatedMarginYHigh = lockCoordinated.y + marginSpace
+    val lockCoordinatedMarginXLow = lockCoordinated.x - marginSpace
+    val lockCoordinatedMarginXHigh = lockCoordinated.x + marginSpace
+    val lockCoordinatedMarginYLow = lockCoordinated.y - marginSpace
+    val lockCoordinatedMarginYHigh = lockCoordinated.y + marginSpace
 
     val placementDimensionsWidthInPx = with(LocalDensity.current) { (placementDimensions.width).dp.toPx() }
     val placementDimensionsHeightInPx = with(LocalDensity.current) { (placementDimensions.height).dp.toPx() }
 
-    val expandValue = boxDimensions.expand
-    val fontSize = 10.sp
     val enabledDragging = remember { mutableStateOf(true) }
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+
+    val fontSize = 6.sp
     val shape = RoundedCornerShape(12.dp)
     val coroutineScope = rememberCoroutineScope()
-    val clickable = Modifier.clickable(
+    val clickable = Modifier
+        .clickable(
         interactionSource = interactionSource,
         indication = LocalIndication.current
     ) { }
@@ -71,20 +70,22 @@ fun CompBox(title: String,
         targetValue = if (enabledDragging.value && !isPressed) {
             Size(width = cardInitWidth, height = cardInitHeight)
         } else {
-            Size(width = cardInitWidth + expandValue, height = cardInitHeight + expandValue)
+            Size(width = cardInitWidth + boxDimensions.expand, height = cardInitHeight + boxDimensions.expand)
         }
     )
-    var offsetX  =  remember { Animatable(initialValue = initCoordinated.x) }
-    var offsetY  =  remember { Animatable(initialValue = initCoordinated.y) }
+    val offsetX  =  remember { Animatable(initialValue = initCoordinated.x) }
+    val offsetY  =  remember { Animatable(initialValue = initCoordinated.y) }
 
-    var zV = remember { mutableStateOf(z) }
+    val zV = remember { mutableStateOf(z) }
     val atLockPosition = remember { mutableStateOf(false) }
+
     Box(
+        //contentAlignment = contentAlignment,
         modifier = Modifier
             .fillMaxSize()
             .zIndex(
                 zIndex = if (enabledDragging.value && !isPressed) {
-                    zV.value.toFloat()
+                    zV.value
                 } else {
                     100f
                 }
@@ -169,7 +170,7 @@ fun CompBox(title: String,
                 }
                 .then(clickable)
         ) {
-            if (test) {
+            if (testData1) {
                 Row(
                     modifier = Modifier
                         .fillMaxHeight(),
@@ -210,7 +211,7 @@ fun CompBox(title: String,
                                 textAlign = TextAlign.Center
                             )
                             Text(
-                                text = "Box Expand: $expandValue",
+                                text = "Box Expand: ${boxDimensions.expand}",
                                 color = Color.White,
                                 fontSize = fontSize,
                                 textAlign = TextAlign.Center
@@ -255,7 +256,7 @@ fun CompBox(title: String,
                         )
                         {
                             Text(
-                                text = "z-Index: ${zV.value.toFloat()}",
+                                text = "z-Index: ${zV.value}",
                                 color = Color.White,
                                 fontSize = fontSize,
                                 textAlign = TextAlign.Center
@@ -278,7 +279,7 @@ fun CompBox(title: String,
             }
         }
     }
-    if (test) {
+    if (testData2) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -287,14 +288,14 @@ fun CompBox(title: String,
             Row()
             {
                 Text(
-                    text = "dmWidthInPx: $dmWidthInPx",
+                    text = "dmWidthInPx: ${displayMetrics.widthPixels}",
                     color = Color.Black,
                     fontSize = fontSize,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(width = 10.dp, height = 0.dp))
                 Text(
-                    text = "dmHeightInPx: $dmHeightInPx",
+                    text = "dmHeightInPx: ${displayMetrics.heightPixels}",
                     color = Color.Black,
                     fontSize = fontSize,
                     textAlign = TextAlign.Center
@@ -335,14 +336,14 @@ fun CompBox(title: String,
             Row()
             {
                 Text(
-                    text = "middleLockScopeX: ${(dmWidthInPx - cardInitWidthInPx ) / 2}",
+                    text = "middleLockScopeX: ${(displayMetrics.widthPixels - cardInitWidthInPx ) / 2}",
                     color = Color.Black,
                     fontSize = fontSize,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(width = 10.dp, height = 0.dp))
                 Text(
-                    text = "middleLockScopeY: ${(dmHeightInPx - cardInitHeightInPx) / 2}",
+                    text = "middleLockScopeY: ${(displayMetrics.heightPixels - cardInitHeightInPx) / 2}",
                     color = Color.Black,
                     fontSize = fontSize,
                     textAlign = TextAlign.Center
@@ -355,7 +356,7 @@ fun CompBox(title: String,
 @Preview(showBackground = true)
 @Composable
 fun PreviewCompBox() {
-    CompBox(title = "Card Title", initCoordinated = DataCoordinates(100f, 100f), boxDimensions = DataSize(135f, 190f, 20f), test = false, content =
+    CompBox(title = "Card Title", initCoordinated = DataCoordinates(100f, 100f), boxDimensions = DataSize(135f, 190f, 20f), content =
     {
         Text(text = "Title", color = Color.White, fontSize = 16.sp, textAlign = TextAlign.Center)
     }
