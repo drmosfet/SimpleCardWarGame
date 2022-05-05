@@ -1,26 +1,10 @@
 package com.lordmorduk.simplewarcardgame
 
-import android.provider.ContactsContract
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lordmorduk.simplewarcardgame.ui.theme.SimpleWarCardGameTheme
-import java.lang.Math.max
-import java.lang.Math.min
 
 @Composable
 fun CompHand(
@@ -47,8 +31,8 @@ fun CompHand(
             boxDimensions = cardDimensions,
             placementDimensions = placementDimentions,
             lockCoordinated = lockCoordinated,
-            testData1 = true,
-            testData2 = true,
+            testData1 = false,
+            testData2 = false,
             z = cardCounter.toFloat(),
             content = {}
         )

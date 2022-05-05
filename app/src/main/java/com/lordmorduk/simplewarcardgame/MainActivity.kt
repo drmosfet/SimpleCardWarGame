@@ -26,26 +26,29 @@ class MainActivity : ComponentActivity() {
         val dmWidthInPx = displayMetrics.widthPixels
         val dmHeightInPx = displayMetrics.heightPixels
 
-        var placementDimentions = DataSize(width = 145f, height = 200f)
-        var cardDimentions = DataSize()
+        //var placementDimentions = DataSize(width = 145f, height = 200f)
+        //var cardDimentions = DataSize()
+
+        val placementDimentions = DataSize(width = 125f, height = 180f)
+        val cardDimentions = DataSize(width = 115f, height = 170f, expand = 10f)
 
         setContent {
             SimpleWarCardGameTheme() {
                 //var orientation by remember { mutableStateOf(Configuration.ORIENTATION_PORTRAIT) }
 
-                val configuration = LocalConfiguration.current
-                when (configuration.orientation) {
-                    Configuration.ORIENTATION_LANDSCAPE -> {
-                        placementDimentions = DataSize(width = 125f, height = 180f)
-                        cardDimentions = DataSize(width = 115f, height = 170f, expand = 10f)
-                    }
-
-                    // Other wise
-                    else -> {
-                        placementDimentions = DataSize(width = 125f, height = 180f)
-                        cardDimentions = DataSize(width = 115f, height = 170f, expand = 10f)
-                    }
-                }
+//                val configuration = LocalConfiguration.current
+//                when (configuration.orientation) {
+//                    Configuration.ORIENTATION_LANDSCAPE -> {
+//                        placementDimentions = DataSize(width = 125f, height = 180f)
+//                        cardDimentions = DataSize(width = 115f, height = 170f, expand = 10f)
+//                    }
+//
+//                    // Other wise
+//                    else -> {
+//                        placementDimentions = DataSize(width = 125f, height = 180f)
+//                        cardDimentions = DataSize(width = 115f, height = 170f, expand = 10f)
+//                    }
+//                }
 
                 val placementInitYCenter = (dmHeightInPx.toFloat() / 2) - (with(LocalDensity.current) { (placementDimentions.height.dp.toPx()) } / 2)
                 val placementInitXCenter = (dmWidthInPx.toFloat() / 2) - (with(LocalDensity.current) { (placementDimentions.width.dp.toPx()) } / 2)
@@ -66,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         title = "Placement Centered",
                         boxDimensions = placementDimentions,
                         initCoordinated = placementCoordinates,
-                        test = true,
+                        test = false,
                         center = false,
                     )
                     CompHand(
