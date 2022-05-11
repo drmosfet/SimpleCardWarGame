@@ -37,8 +37,8 @@ fun CompBox(title: String,
             testData1: Boolean = false,
             testData2: Boolean = false,
             z: Float = 0f,
-            content: @Composable() () -> Unit)
-{
+            content: @Composable() () -> Unit
+) {
     val context = LocalContext.current
     val displayMetrics = context.getResources().getDisplayMetrics()
     val cardInitWidth = boxDimensions.width
@@ -170,6 +170,18 @@ fun CompBox(title: String,
                 }
                 .then(clickable)
         ) {
+
+
+
+
+
+
+
+
+
+
+
+
             if (testData1) {
                 Row(
                     modifier = Modifier
